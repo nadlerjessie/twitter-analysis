@@ -2,19 +2,6 @@
 
 return [
 
-    'default' => env('DB_CONNECTION', 'mongodb'),
-
-    'mongodb' => array(
-        'driver' => 'mongodb',
-        'host' => env('DB_HOST', 'localhost'),
-        'port' => env('DB_PORT', 27017),
-        'database' => env('DB_DATABASE', 'l5'),
-        'username' => env('DB_USERNAME', 'l5'),
-        'password' => env('DB_PASSWORD', '123456'),
-        'options' => array(
-            'db' => 'admin' // sets the authentication database required by mongo 3
-        )
-    ),
 
     /*
     |--------------------------------------------------------------------------
@@ -40,7 +27,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
+    'default' => env('DB_CONNECTION', 'mongodb'),
 
     /*
     |--------------------------------------------------------------------------
@@ -59,6 +46,25 @@ return [
     */
 
     'connections' => [
+
+        // 'mongodb' => array(
+        //     'driver' => 'mongodb',
+        //     'host' => 'localhost',
+        //     'port' => 27017,
+        //     'database' => 'test',
+        // ),
+
+        'mongodb' => array(
+            'driver' => 'mongodb',
+            'host' => env('DB_HOST', '127.0.0.1'),
+            'port' => env('DB_PORT', 27017),
+            'database' => env('DB_DATABASE', 'l5'),
+            'username' => env('DB_USERNAME', 'l5'),
+            'password' => env('DB_PASSWORD', '123456'),
+            'options' => array(
+                'db' => 'admin' // sets the authentication database required by mongo 3
+            )
+        ),
 
         'sqlite' => [
             'driver'   => 'sqlite',

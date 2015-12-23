@@ -15,6 +15,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/mongodb', function () {
+  //phpinfo()
+  $user = new \App\User;
+  print_r($user);
+
+});
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
