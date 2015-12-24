@@ -19,14 +19,13 @@ Route::get('/test', function() {
   return Twitter::getUserTimeline(['screen_name' => 'FlatironSchool','count' => 5, 'format' => 'json']);
 });
 
-Route::resource('tweet', 'TweetController');
+// Route::get('/tweets', function() {
+//   $tweets = DB::collection('tweets')->get();
+//   return View::make('tweets', ['tweets' => $tweets]);
+// });
+Route::resource('tweets', 'TweetController');
 
 Route::get('twitterclient/tweets', 'TwitterClientController@getTweets');
-
-// Route::get('/mongodb', function () {
-//   //phpinfo()
-//   $user = new \App\User;
-//   print_r($user);
 
 // });
 
