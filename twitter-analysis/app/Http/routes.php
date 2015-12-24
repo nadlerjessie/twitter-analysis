@@ -15,7 +15,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/test', function() {
+  return Twitter::getUserTimeline(['screen_name' => 'FlatironSchool','count' => 5, 'format' => 'json']);
+});
+
 Route::resource('tweet', 'TweetController');
+
+Route::get('twitterclient/tweets', 'TwitterClientController@getTweets');
 
 // Route::get('/mongodb', function () {
 //   //phpinfo()
