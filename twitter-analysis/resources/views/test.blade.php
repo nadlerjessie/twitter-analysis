@@ -2,15 +2,11 @@
 <html>
 <body>
 <h1>Test Tweets</h1>
-  <?php $i = 1 ?>
-  @foreach($tweets as $key => $tweet)
-    <?php if( $tweet->getAttribute('text') ) {?>
-      <p><h4>{{$i}}: {{ $tweet->getAttribute('text') }} -- {{ $tweet->getAttribute('favorite_count') }} Favorites -- {{ $tweet->getAttribute('retweet_count') }} RTs</h4></p>
-    <?php 
-      $i += 1;
-      } 
-    ?>
-  @endforeach
+  <?php 
+    // print_r($test)
+    echo get_class_methods($test[0]);
+  ?>
+
 
 </body>
 </html>
