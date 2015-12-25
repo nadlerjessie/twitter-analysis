@@ -12,22 +12,33 @@ class Analytics extends Model
     // characters.
 
   public function numTweets(){
-    length(Tweet::all());
+      return length(Tweet::all());
   }
 
   public function numTweetsWithLink(){
-    length(Tweet::where('link', true));
+      return length(Tweet::where('link', true));
   }
 
   public function numTweetsFromRT() {
-    length(Tweet::where('retweet', true));
+      return length(Tweet::where('retweet', true));
   }
 
   public function numTimesRetweeted() {
-    
+      return Tweet::all()->sum('retweet_count')
+  }
+
+  public function getLengthOfTweets() {
+      $tweets = Tweet::all();
+      $tweet_lengths = [];
+      foreach($tweets as $tweet) {
+        $len = strlen($tweet->getAttribute('text'));
+        $tweet_lengths.push($len);
+      }
+      return $tweet_lengths
   }
 
   public function avgNumCharacters() {
-    
+      $lengths = $this->getLengthOfTweets();
+      return (array_sum($lengths) / count($lengths));
   }
 }

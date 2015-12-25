@@ -1,4 +1,5 @@
 <?php
+use App\Tweet;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +18,12 @@ Route::get('/', function () {
 
 Route::resource('tweets', 'TweetController');
 
+
+Route::get('/test', function() {
+  $tweets = Tweet::all();
+  return view('tweets.index')
+            ->with('tweets', $tweets);
+});
 
 // });
 

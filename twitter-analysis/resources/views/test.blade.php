@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <body>
-<h1>@FlatironSchool's Tweets</h1>
+<h1>Test Tweets</h1>
   <?php $i = 1 ?>
   @foreach($tweets as $key => $tweet)
     <?php if( $tweet->getAttribute('text') ) {?>
