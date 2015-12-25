@@ -18,6 +18,11 @@ Route::get('/', function () {
 
 Route::resource('tweets', 'TweetController');
 
+Route::group(['prefix' => 'api'], function () {
+  Route::group(['prefix' => 'v1'], function() {
+    Route::resource('tweetanalytics', 'AnalyticsController', ['only' => ['index']]);
+  });
+}) ;
 
 Route::get('/test', function() {
   $tweets = Tweet::all();

@@ -5,26 +5,26 @@ namespace App;
 use Jenssegers\Mongodb\Model as Eloquent;
 use App\Tweet;
 
-class Analytics extends Model
+class Analytics extends Eloquent
 {
     // Create an API endpoint in Laravel that returns # of tweets in
     // database, # of tweets that include a link, # of re-tweets, avg # of
     // characters.
 
   public function numTweets(){
-      return length(Tweet::all());
+      return count(Tweet::all());
   }
 
   public function numTweetsWithLink(){
-      return length(Tweet::where('link', true));
+      return count(Tweet::where('link', true));
   }
 
-  public function numTweetsFromRT() {
-      return length(Tweet::where('retweet', true));
+  public function numTweetsTypeRT() {
+      return count(Tweet::where('retweet', true));
   }
 
   public function numTimesRetweeted() {
-      return Tweet::all()->sum('retweet_count')
+      return Tweet::all()->sum('retweet_count');
   }
 
   public function getLengthOfTweets() {
@@ -32,9 +32,9 @@ class Analytics extends Model
       $tweet_lengths = [];
       foreach($tweets as $tweet) {
         $len = strlen($tweet->getAttribute('text'));
-        $tweet_lengths.push($len);
+        array_push($tweet_lengths, $len);
       }
-      return $tweet_lengths
+      return $tweet_lengths;
   }
 
   public function avgNumCharacters() {
