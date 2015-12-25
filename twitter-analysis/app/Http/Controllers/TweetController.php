@@ -12,9 +12,7 @@ class TweetController extends Controller
 {
     public function index() 
     {   
-      $tweets = Tweet::all();
-
-        return view('tweets.index')
-            ->with('tweets', $tweets);
+        $tweets = Tweet::all();
+        return view('tweets.index')->with('tweets', $tweets);
     }
 }

@@ -22,15 +22,6 @@ Route::group(['prefix' => 'api'], function () {
   Route::group(['prefix' => 'v1'], function() {
     Route::resource('tweetanalytics', 'AnalyticsController', ['only' => ['index']]);
   });
-}) ;
-
-Route::get('/test', function() {
-  $tweets = DB::collection('tweets')->sum('retweet_count');
-  $test = Tweet::where('link', true);
-  // $test = Tweet::where('text', 'Happy Holidays from all of us at Flatiron School! https://t.co/vTAtixXEtb');
-  dd($tweets);
-  return view('test')
-            ->with('test', $test);
 });
 
 /*
