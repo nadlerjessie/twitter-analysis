@@ -20,35 +20,31 @@ class TwitterClientController extends Controller
     return (substr($text, 0, 2) == 'RT');
   }
 
-  public function getTweets() {
-
-    $tweets = \Twitter::getUserTimeline(['screen_name' => 'FlatironSchool','count' => 100, 
-      'format' => 'json']);
-    $tweet_array = json_decode($tweets);
-
-    foreach ($tweet_array as $tweet) {
-      $tweet_text = $tweet->text;
+  public function findOrCreateByText($tweet) {
+    $tweet_text = $tweet->text;
+    if (!count(Tweet::where('text', $tweet_text)->get())){
       Tweet::create(['text' => $tweet_text,
       'link' => $this->tweetHasLink($tweet_text),
       'retweet_count' => $tweet->retweet_count,
       'time' => $tweet->created_at,
       'favorite_count' => $tweet->favorite_count,
-      'hashtag_count' => count($tweet_array[1]->entities->hashtags),
+      'hashtag_count' => count($tweet->entities->hashtags),
       'retweet' => $this->tweetIsRT($tweet_text)]);
-      $new_tweet = new Tweet();
-      $tweet_text = $tweet->text;
-      $tweet_data = array('text' => $tweet_text,
-      'link' => $this->tweetHasLink($tweet_text),
-      'retweet_count' => $tweet->retweet_count,
-      'time' => $tweet->created_at,
-      'favorite_count' => $tweet->favorite_count,
-      'hashtag_count' => count($tweet_array[1]->entities->hashtags),
-      'retweet' => $this->tweetIsRT($tweet_text));
-
-      $new_tweet->save($tweet_data);
     }
+    else {
+      Tweet::where('text', $tweet_text)->get();
+    }
+  }
 
-    print_r(Tweet::first()->getAttribute('text'));
+  public function getTweets() {
+
+    $tweets = \Twitter::getUserTimeline(['screen_name' => 'FlatironSchool','count' => 100, 
+      'format' => 'json']);
+    $tweet_array = json_decode($tweets);
+    foreach ($tweet_array as $tweet) { 
+      $this->findOrCreateByText($tweet);
+    }
+    print_r(count(Tweet::all()));
   }
     
 }

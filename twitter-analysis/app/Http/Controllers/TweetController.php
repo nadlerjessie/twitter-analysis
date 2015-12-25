@@ -16,7 +16,5 @@ class TweetController extends Controller
 
         return view('tweets.index')
             ->with('tweets', $tweets);
-        // $tweets = DB::table('tweets')->get();
-        // return view('tweet.index', ['tweets' => $tweets]);
     }
 }
