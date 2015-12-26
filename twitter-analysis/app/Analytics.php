@@ -85,7 +85,7 @@ class Analytics extends Eloquent
   public function organizeTweetsByTime() {
       $tweets_by_time = [];
       foreach($this::$hour_ranges as $range) {
-          array_push($tweets_by_time, DB::collection('tweets')->whereBetween('hour', $range));
+          array_push($tweets_by_time, DB::collection('tweets')->whereBetween('hour', $range)->where('retweet', false));
       }
       return $tweets_by_time; //[$early_morning, $morning, $mid_day, $afternoon, $evening, $night]      
   }

@@ -19,7 +19,7 @@ class AnalyticsController extends Controller
         'numTweetsWithLink' => $analytics->numTweetsWithLink(),
         'numTweetsTypeRT' => $analytics->numTweetsTypeRT(),
         'numTimesRetweeted' => $analytics->numTimesRetweeted(),
-        'avgNumCharacters' => $analytics->avgNumCharacters()
+        'avgNumCharacters' => $analytics->avgNumCharacters(),
       ];
 
       return \Response::json($response, $statusCode);
