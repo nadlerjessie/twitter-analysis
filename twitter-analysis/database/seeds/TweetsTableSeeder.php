@@ -32,6 +32,11 @@ class TweetsTableSeeder extends Seeder
         return new Datetime($time);
     }
 
+    public function findHour($time) {
+        $date = new Datetime($time);
+        return (int)$date->format('H');
+    }
+
     public function findOrCreateByText($tweet) {
         $text = $tweet->text;
         if (!count(Tweet::where('text', $text)->get())){
@@ -39,6 +44,7 @@ class TweetsTableSeeder extends Seeder
           'link' => $this->tweetHasLink($text),
           'retweet_count' => $tweet->retweet_count,
           'time' => $this->setTime($tweet->created_at),
+          'hour' => $this->findHour($tweet->created_at),
           'favorite_count' => $tweet->favorite_count,
           'hashtag_count' => count($tweet->entities->hashtags),
           'retweet' => $this->tweetIsRT($text)]);
