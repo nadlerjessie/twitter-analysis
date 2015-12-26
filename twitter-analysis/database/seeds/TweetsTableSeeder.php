@@ -28,13 +28,17 @@ class TweetsTableSeeder extends Seeder
         return (substr($text, 0, 2) == 'RT');
     }
 
+    public function setTime($time) {
+        return new Datetime($time);
+    }
+
     public function findOrCreateByText($tweet) {
         $text = $tweet->text;
         if (!count(Tweet::where('text', $text)->get())){
           return Tweet::create(['text' => $text,
           'link' => $this->tweetHasLink($text),
           'retweet_count' => $tweet->retweet_count,
-          'time' => $tweet->created_at,
+          'time' => $this->setTime($tweet->created_at),
           'favorite_count' => $tweet->favorite_count,
           'hashtag_count' => count($tweet->entities->hashtags),
           'retweet' => $this->tweetIsRT($text)]);

@@ -5,6 +5,7 @@ namespace App;
 use Jenssegers\Mongodb\Model as Eloquent;
 use App\Tweet;
 use DB;
+use Datetime;
 
 class Analytics extends Eloquent
 {
@@ -39,4 +40,6 @@ class Analytics extends Eloquent
       $lengths = $this->getLengthOfTweets();
       return (array_sum($lengths) / count($lengths));
   }
+
+
 }
