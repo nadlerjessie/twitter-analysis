@@ -40,32 +40,53 @@ class Analytics extends Eloquent
 
   public function avgNumCharacters() {
       $lengths = $this->getLengthOfTweets();
-      return (array_sum($lengths) / count($lengths));
+      return (floor(array_sum($lengths) / count($lengths)));
   }
 
-  public function optimizeTweetTime() {
-      $tweets_by_time = $this->organizeTweetsByTime();
-      $retweet_counts = [];
-      $favorite_counts = [];
-      foreach ($tweets_by_time as $key => $tweet_by_time) {
-        array_push($retweet_counts, $tweet_by_time->sum('retweet_count'));
-        array_push($favorite_counts, $tweet_by_time->sum('favorite_count'));
+  public function optimalTweetTime() {
+      $retweet_counts = $this->findCountsByTime('retweet_count');
+      $favorite_counts = $this->findCountsByTime('favorite_count');
+      $max_retweet_count_index = array_keys($retweet_counts, max($retweet_counts))[0];
+      $max_favorite_count_index = array_keys($favorite_counts, max($favorite_counts))[0];
+      if ($max_retweet_count_index == $max_favorite_count_index) {
+        $range = $this::$hour_ranges[$max_retweet_count_index];
+        return $this->displayTime($range);
       }
-      dd($retweet_counts);
+      else {
+        $retweet_range = $this::$hour_ranges[$max_retweet_count_index];
+        $favorite_range = $this::$hour_ranges[$max_favorite_count_index];
+        return "To optimize RTs: " . $this->displayTime($retweet_range) . " To optimize Likes: " .  $this->displayTime($favorite_range);
+      }
+  }
+
+  public function displayTime($range){
+      $start_time = $range[0];
+      $end_time = $range[1];
+      if ($start_time == 12) {
+        return $start_time . "-" . ($end_time - 12) . " PM.";
+      }
+      elseif ($start_time > 12) {
+        return ($start_time - 12) . "-" . ($end_time - 12) . " PM.";
+      }
+      else {
+        return $start_time . "-" . $end_time . " AM.";
+      }
+  }
+
+  public function findCountsByTime($count_type) {
+      $tweets_by_time = $this->organizeTweetsByTime();
+      $counts = [];
+      foreach ($tweets_by_time as $key => $tweet_by_time) {
+        array_push($counts, $tweet_by_time->sum($count_type));
+      }
+      return $counts;
   }
 
   public function organizeTweetsByTime() {
-        $tweets_by_time = [];
-        foreach($this::$hour_ranges as $range) {
-            array_push($tweets_by_time, DB::collection('tweets')->whereBetween('hour', $range));
-        }
-        return $tweets_by_time; //[$early_morning, $morning, $mid_day, $afternoon, $evening, $night]
-        // $early_morning = DB::collection('tweets')->whereBetween('hour', array(0,7)->get());
-        // $morning = DB::collection('tweets')->whereBetween('hour', array(8,11)->get());
-        // $mid_day = DB::collection('tweets')->whereBetween('hour', array(12,14)->get());
-        // $afternoon = DB::collection('tweets')->whereBetween('hour', array(15,17)->get());
-        // $evening = DB::collection('tweets')->whereBetween('hour', array(18,20)->get());
-        // $night = DB::collection('tweets')->whereBetween('hour', array(21,23)->get());
-         
+      $tweets_by_time = [];
+      foreach($this::$hour_ranges as $range) {
+          array_push($tweets_by_time, DB::collection('tweets')->whereBetween('hour', $range));
+      }
+      return $tweets_by_time; //[$early_morning, $morning, $mid_day, $afternoon, $evening, $night]      
   }
 }

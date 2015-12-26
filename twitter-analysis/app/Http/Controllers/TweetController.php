@@ -7,12 +7,16 @@ use DB;
 use App\Tweet;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Analytics;
 
 class TweetController extends Controller
 {
     public function index() 
     {   
+        $analytics = new Analytics();
+        $optimalTweetTime = $analytics->optimalTweetTime();
+
         $tweets = Tweet::all();
-        return view('tweets.index')->with('tweets', $tweets);
+        return view('tweets.index', ['tweets' => $tweets, 'time' => $optimalTweetTime]);
     }
 }

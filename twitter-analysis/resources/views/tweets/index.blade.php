@@ -2,6 +2,7 @@
 <html>
 <body>
 <h1>@FlatironSchool's Tweets</h1>
+  <h3>Optimal time to tweet: {{ $time }}</h3>
   <?php $i = 1 ?>
   @foreach($tweets as $key => $tweet)
     <?php if( $tweet->getAttribute('text') ) {?>
