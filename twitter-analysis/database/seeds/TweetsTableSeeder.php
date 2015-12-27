@@ -43,7 +43,7 @@ class TweetsTableSeeder extends Seeder
           return Tweet::create(['text' => $text,
           'link' => $this->tweetHasLink($text),
           'retweet_count' => $tweet->retweet_count,
-          'time' => $this->setTime($tweet->created_at),
+          'datetime' => $this->setTime($tweet->created_at),
           'hour' => $this->findHour($tweet->created_at),
           'favorite_count' => $tweet->favorite_count,
           'hashtag_count' => count($tweet->entities->hashtags),

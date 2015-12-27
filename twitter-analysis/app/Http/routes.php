@@ -20,7 +20,7 @@ Route::resource('tweets', 'TweetController');
 
 Route::group(['prefix' => 'api'], function () {
   Route::group(['prefix' => 'v1'], function() {
-    Route::resource('tweetanalytics', 'AnalyticsController', ['only' => ['index']]);
+    Route::resource('tweetanalytics', 'AnalyticsController', ['only' => ['index', 'chartData']]);
   });
 });
 

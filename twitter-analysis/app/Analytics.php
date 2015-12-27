@@ -89,4 +89,25 @@ class Analytics extends Eloquent
       }
       return $tweets_by_time; //[$early_morning, $morning, $mid_day, $afternoon, $evening, $night]      
   }
+
+  public function setDateRange($start_date, $end_date) {
+      $interval = new \DateInterval('P1D');
+      $start = new DateTime($start_date);
+      $end = new DateTime($end_date);
+      return new \DatePeriod($start, $interval, $end); 
+  }
+
+  public function chronologicalChartData($input_param, $start_date, $end_date) {
+      // Find tweets in date range
+      // Group tweets by date->format('Y-m-d') and sum value of input_param for each day in range
+      $daterange = $this->setDateRange($start_date, $end_date); 
+      foreach($daterange as $date) {
+        // validate instances where $tweet['datetime']['date']->format('Y-m-d') == $date->format('Y-m-d')
+        $tweets = DB::collection('tweets')->where('datetime');
+        $t1 = new DateTime($tweets['datetime']['date']);
+        $t2 = $date->format('Y-m-d');
+        dd($t1->format('Y-m-d') == $t2);
+      }
+      
+  }
 }
