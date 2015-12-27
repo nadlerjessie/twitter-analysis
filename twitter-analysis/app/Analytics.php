@@ -101,13 +101,14 @@ class Analytics extends Eloquent
       // Find tweets in date range
       // Group tweets by date->format('Y-m-d') and sum value of input_param for each day in range
       $daterange = $this->setDateRange($start_date, $end_date); 
+      $array = [];
       foreach($daterange as $date) {
+        $date_string = $date->format('Y-m-d');
+        $value = 0;
         // validate instances where $tweet['datetime']['date']->format('Y-m-d') == $date->format('Y-m-d')
-        $tweets = DB::collection('tweets')->where('datetime');
-        $t1 = new DateTime($tweets['datetime']['date']);
-        $t2 = $date->format('Y-m-d');
-        dd($t1->format('Y-m-d') == $t2);
+        // adds to counter for $value
+        array_push($array, {'value': $value, 'date': $date_string})
       }
-      
+      return $array
   }
 }
