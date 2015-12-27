@@ -25,7 +25,7 @@ class Analytics extends Eloquent
   }
 
   public function numTimesRetweeted() {
-      return DB::collection('tweets')->sum('retweet_count');
+      return DB::collection('tweets')->where('retweet', false)->sum('retweet_count');
   }
 
   public function getLengthOfTweets() {
